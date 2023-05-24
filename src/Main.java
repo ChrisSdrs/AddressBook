@@ -10,7 +10,6 @@ public class Main {
         int choice = 0;
 
         while (choice != 7) {
-            System.out.println("Type the number of your choice:");
             System.out.println("1. View contacts");
             System.out.println("2. Add new contact");
             System.out.println("3. Search contact by name");
@@ -18,6 +17,7 @@ public class Main {
             System.out.println("5. Edit contact by name");
             System.out.println("6. Delete contact by name");
             System.out.println("7. Quit application");
+            System.out.println("Type the number of your choice:");
 
             choice = scanner.nextInt();
 
