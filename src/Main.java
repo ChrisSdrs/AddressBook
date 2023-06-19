@@ -88,10 +88,9 @@ public class Main {
                     String firstNameToDelete = scanner.next();
                     System.out.print("Enter the last name of the contact to delete: ");
                     String lastNameToDelete = scanner.next();
-                    Contact contactToDelete = contactManagement.searchByFullName(firstNameToDelete, lastNameToDelete);
 
                     // Remove the contact from the contact management system
-                    contactManagement.removeContact(firstNameToDelete, lastNameToDelete);
+                    contactManagement.deleteContact(firstNameToDelete, lastNameToDelete);
                     break;
                 case 7:
                     System.out.println("Quit application.");

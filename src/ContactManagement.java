@@ -49,16 +49,11 @@ public class ContactManagement {
         }
     }
 
-    public void removeContact(String firstName, String lastName) {
-        Contact contactToRemove = null;
-        for (Contact contact : contacts) {
-            if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
-                contactToRemove = contact;
-                break;
-            }
-        }
-        if (contactToRemove != null) {
-            contacts.remove(contactToRemove);
+    public void deleteContact(String firstName, String lastName) {
+        Contact contactToDelete = searchByFullName(firstName,lastName);
+
+        if (contactToDelete != null) {
+            contacts.remove(contactToDelete);
             System.out.println(BOLD + ITALIC + RED + "Contact deleted successfully!\n" + RESET);
         } else {
             System.out.println(BOLD + ITALIC + BLUE + "Contact not found.\n" + RESET);
@@ -94,9 +89,11 @@ public class ContactManagement {
 
     public void displayContacts() {
         if (contacts.isEmpty()) {
-            System.out.println(BOLD + ITALIC + BLUE + "There are no contacts." + RESET);
+            System.out.println(BOLD + ITALIC + BLUE + "There are no contacts saved." + RESET);
         } else {
-            System.out.println(BOLD + ITALIC + CYAN + "Contact(s) found:" + RESET);
+            int contactsCount = contacts.size();  // Get the number of contacts to display
+            System.out.println(BOLD + ITALIC + CYAN + contactsCount +
+                    " contact" + (contactsCount > 1 ? "s" : "") + " found:" + RESET);
             for (Contact contact : contacts) {
                 contactDetails(contact);
             }
