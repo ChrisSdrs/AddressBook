@@ -20,9 +20,14 @@ public class ContactManagement {
     public static final String CYAN = "\u001B[36m";
     public static final String MAGENTA = "\u001B[35m";
 
-
     private int counter = 0;
 
+    /**
+     * Adds a contact to the list of contacts.
+     * If the counter is greater than or equal to 10, it prints a success message.
+     * If the counter is less than 10, it increments the counter.
+     * The counter keeps track of the number of contacts added.
+     */
     public void addContact(Contact contact) {
         contacts.add(contact);
         if (counter >= 10) {
@@ -44,10 +49,10 @@ public class ContactManagement {
         }
     }
 
-    public void removeContact(String name) {
+    public void removeContact(String firstName, String lastName) {
         Contact contactToRemove = null;
         for (Contact contact : contacts) {
-            if (contact.getFirstName().equals(name)) {
+            if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
                 contactToRemove = contact;
                 break;
             }
@@ -60,9 +65,18 @@ public class ContactManagement {
         }
     }
 
-    public Contact searchByName(String name) {
+    public Contact searchByName(String firstName) {
         for (Contact contact : contacts) {
-            if (contact.getFirstName().equals(name)) {
+            if (contact.getFirstName().equals(firstName)) {
+                return contact;
+            }
+        }
+        return null;
+    }
+
+    public Contact searchByFullName(String firstName, String lastName) {
+        for (Contact contact : contacts) {
+            if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
                 return contact;
             }
         }
@@ -109,6 +123,7 @@ public class ContactManagement {
     }
 
     public void dataInject() {
+        // Create sample contact objects
         Contact contact1 = new Contact("John", "Smith", "1234567890", "john@example.com", "Main", "123");
         Contact contact2 = new Contact("Jane", "Doe", "9876543210", "jane@example.com", "Elm", "456");
         Contact contact3 = new Contact("Mike", "Johnson", "5555555555", "mike@example.com", "Oak", "789");
@@ -120,6 +135,7 @@ public class ContactManagement {
         Contact contact9 = new Contact("Michael", "Anderson", "7776665555", "michael@example.com", "Willow", "789");
         Contact contact10 = new Contact("Jessica", "Martinez", "2223334444", "jessica@example.com", "Maple", "456");
 
+        // Add sample contacts to the list
         addContact(contact1);
         addContact(contact2);
         addContact(contact3);
