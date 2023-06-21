@@ -20,7 +20,6 @@ public class ContactManagement {
     public static final String YELLOW = "\u001B[33m";
     public static final String BLUE = "\u001B[34m";
     public static final String CYAN = "\u001B[36m";
-    public static final String MAGENTA = "\u001B[35m";
 
     private int counter = 0;
 
@@ -42,9 +41,30 @@ public class ContactManagement {
 
     public void editContact(Contact contactToEdit, Scanner scanner) {
         if (contactToEdit != null) {
+            System.out.print("Enter new first name: ");
+            String newFirstName = validateName(scanner.next()+ scanner.nextLine(), false, scanner);
+            contactToEdit.setFirstName(newFirstName);
+
+            System.out.print("Enter new last name: ");
+            String newLastName = validateName(scanner.next() + scanner.nextLine(), false, scanner);
+            contactToEdit.setLastName(newLastName);
+
             System.out.print("Enter new phone: ");
-            String newPhone = scanner.next();
+            String newPhone = validateNumber(scanner.next(), "phone", scanner);
             contactToEdit.setPhone(newPhone);
+
+            System.out.print("Enter new e-mail: ");
+            String newEmail = validateEmail(scanner.next(), scanner);
+            contactToEdit.setEmail(newEmail);
+
+            System.out.print("Enter new street name: ");
+            String newStreetName = validateName(scanner.next() + scanner.nextLine(), true, scanner);
+            contactToEdit.setStreetName(newStreetName);
+
+            System.out.print("Enter new street number: ");
+            String newStreetNumber = validateNumber(scanner.next(), "streetNumber", scanner);
+            contactToEdit.setStreetNumber(newStreetNumber);
+
             System.out.println(BOLD + ITALIC + YELLOW + "Contact edited successfully!\n" + RESET);
         } else {
             System.out.println(BOLD + ITALIC + BLUE + "Contact not found.\n" + RESET);
@@ -126,8 +146,36 @@ public class ContactManagement {
         System.out.println("------------------------");
     }
 
+    // Validation methods
+    public String validateName(String name, boolean includingSpace, Scanner scanner) {
+        if (includingSpace) {
+            while (!isValidStreetName(name)) {
+                System.out.print("Invalid street name. Please enter a valid street name: ");
+                name = scanner.next() + scanner.nextLine();
+            }
+        } else {
+            while (!isValidName(name)) {
+                System.out.print("Invalid name. Please enter a valid name: ");
+                name = scanner.next() + scanner.nextLine();
+            }
+        }
+        return name;
+    }
+
     public boolean isValidName(String name) {
-        return name.matches("[A-Z][a-z]+");
+        return name.matches("[A-Z][a-z]*");
+    }
+
+    public boolean isValidStreetName(String name) {
+        return name.matches("[A-Z][a-z ]+[A-Z]?[a-z]*");
+    }
+
+    public String validateNumber(String number, String type, Scanner scanner) {
+        while (!isValidNumber(number, type)) {
+            System.out.print("Invalid number. Please enter a valid number: ");
+            number = scanner.next();
+        }
+        return number;
     }
 
     public boolean isValidNumber(String number, String type) {
@@ -146,6 +194,14 @@ public class ContactManagement {
         return true;
     }
 
+    public String validateEmail(String email, Scanner scanner) {
+        while (!isValidEmail(email)) {
+            System.out.print("Invalid email. Please enter a valid email: ");
+            email = scanner.next();
+        }
+        return email;
+    }
+
     public boolean isValidEmail(String email) {
         // Regular expression pattern for email validation
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[a-z]+$";
@@ -154,6 +210,7 @@ public class ContactManagement {
         return matcher.matches();
     }
 
+    // Data injection method
     public void dataInject() {
         // Create sample contact objects
         Contact contact1 = new Contact("John", "Smith", "1234567890", "john@example.com", "Main", "123");
