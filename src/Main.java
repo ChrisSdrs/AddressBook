@@ -36,16 +36,47 @@ public class Main {
                     System.out.println("Enter new contact details:");
                     System.out.print("First name: ");
                     String firstName = scanner.next();
+                    while (!contactManagement.isValidName(firstName)) {
+                        System.out.print("Invalid name. Please enter a valid name: ");
+                        firstName = scanner.next();
+                    }
+
                     System.out.print("Last name: ");
                     String lastName = scanner.next();
+                    while (!contactManagement.isValidName(lastName)) {
+                        System.out.print("Invalid name. Please enter a valid name: ");
+                        lastName = scanner.next();
+                    }
+
                     System.out.print("Phone: ");
                     String phone = scanner.next();
+                    while (!contactManagement.isValidNumber(phone, "phone")) {
+                        System.out.print("Invalid phone. Please enter a valid phone: ");
+                        phone = scanner.next();
+                    }
+
                     System.out.print("E-mail: ");
                     String email = scanner.next();
+                    while (!contactManagement.isValidEmail(email)) {
+                        System.out.print("Invalid email. Please enter a valid email: ");
+                        email = scanner.next();
+                    }
+
                     System.out.print("Street name: ");
                     String streetName = scanner.next();
+                    streetName += scanner.nextLine();
+                    while (!contactManagement.isValidName(streetName)) {
+                        System.out.print("Invalid street name. Please enter a valid street name: ");
+                        streetName = scanner.next();
+                        streetName += scanner.nextLine();
+                    }
+
                     System.out.print("Street number: ");
                     String streetNumber = scanner.next();
+                    while (!contactManagement.isValidNumber(streetNumber, "streetNumber")) {
+                        System.out.print("Invalid street number. Please enter a valid street number: ");
+                        streetNumber = scanner.next();
+                    }
 
                     // Create a new Contact object with the entered details
                     Contact newContact = new Contact(firstName, lastName, phone, email, streetName, streetNumber);
@@ -88,9 +119,10 @@ public class Main {
                     String firstNameToDelete = scanner.next();
                     System.out.print("Enter the last name of the contact to delete: ");
                     String lastNameToDelete = scanner.next();
+                    Contact contactToDelete = contactManagement.searchByFullName(firstNameToDelete, lastNameToDelete);
 
                     // Remove the contact from the contact management system
-                    contactManagement.deleteContact(firstNameToDelete, lastNameToDelete);
+                    contactManagement.removeContact(firstNameToDelete, lastNameToDelete);
                     break;
                 case 7:
                     System.out.println("Quit application.");

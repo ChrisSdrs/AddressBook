@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ContactManagement {
 
@@ -49,11 +51,16 @@ public class ContactManagement {
         }
     }
 
-    public void deleteContact(String firstName, String lastName) {
-        Contact contactToDelete = searchByFullName(firstName,lastName);
-
-        if (contactToDelete != null) {
-            contacts.remove(contactToDelete);
+    public void removeContact(String firstName, String lastName) {
+        Contact contactToRemove = null;
+        for (Contact contact : contacts) {
+            if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
+                contactToRemove = contact;
+                break;
+            }
+        }
+        if (contactToRemove != null) {
+            contacts.remove(contactToRemove);
             System.out.println(BOLD + ITALIC + RED + "Contact deleted successfully!\n" + RESET);
         } else {
             System.out.println(BOLD + ITALIC + BLUE + "Contact not found.\n" + RESET);
@@ -89,11 +96,11 @@ public class ContactManagement {
 
     public void displayContacts() {
         if (contacts.isEmpty()) {
-            System.out.println(BOLD + ITALIC + BLUE + "There are no contacts saved." + RESET);
+            System.out.println(BOLD + ITALIC + BLUE + "There are no contacts." + RESET);
         } else {
-            int contactsCount = contacts.size();  // Get the number of contacts to display
-            System.out.println(BOLD + ITALIC + CYAN + contactsCount +
-                    " contact" + (contactsCount > 1 ? "s" : "") + " found:" + RESET);
+            int contactsCount = contacts.size();  // Get the number of contacts
+            System.out.println(BOLD + ITALIC + CYAN + contactsCount + " contact" + (contactsCount > 1 ? "s" : "") + " found:" + RESET);
+
             for (Contact contact : contacts) {
                 contactDetails(contact);
             }
@@ -117,6 +124,34 @@ public class ContactManagement {
         System.out.println("Street name: " + contact.getStreetName());
         System.out.println("Street number: " + contact.getStreetNumber());
         System.out.println("------------------------");
+    }
+
+    public boolean isValidName(String name) {
+        return name.matches("[A-Z][a-z]+");
+    }
+
+    public boolean isValidNumber(String number, String type) {
+        if (number.length() != 10 && type.equals("phone")) {
+            return false;
+        } else if (number.length() > 3 && type.equals("streetNumber")) {
+            return false;
+        }
+
+        for (int i = 0; i < number.length(); i++) {
+            if (!Character.isDigit(number.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isValidEmail(String email) {
+        // Regular expression pattern for email validation
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[a-z]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     public void dataInject() {
