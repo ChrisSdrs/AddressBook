@@ -3,10 +3,18 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The ContactManagement class represents a contact management system.
+ * It allows adding, editing, and removing contacts, as well as searching and displaying contacts.
+ */
 public class ContactManagement {
 
     private final ArrayList<Contact> contacts;
 
+    /**
+     * Creates a new instance of the ContactManagement class.
+     * Initializes the list of contacts.
+     */
     public ContactManagement() {
         contacts = new ArrayList<>();
     }
@@ -28,6 +36,8 @@ public class ContactManagement {
      * If the counter is greater than or equal to 10, it prints a success message.
      * If the counter is less than 10, it increments the counter.
      * The counter keeps track of the number of contacts added.
+     *
+     * @param contact The contact to add.
      */
     public void addContact(Contact contact) {
         contacts.add(contact);
@@ -39,10 +49,16 @@ public class ContactManagement {
         }
     }
 
+    /**
+     * Edits a contact with the provided information.
+     *
+     * @param contactToEdit The contact to edit.
+     * @param scanner       The Scanner object for user input.
+     */
     public void editContact(Contact contactToEdit, Scanner scanner) {
         if (contactToEdit != null) {
             System.out.print("Enter new first name: ");
-            String newFirstName = validateName(scanner.next()+ scanner.nextLine(), false, scanner);
+            String newFirstName = validateName(scanner.next() + scanner.nextLine(), false, scanner);
             contactToEdit.setFirstName(newFirstName);
 
             System.out.print("Enter new last name: ");
@@ -71,6 +87,12 @@ public class ContactManagement {
         }
     }
 
+    /**
+     * Removes a contact with the given first name and last name.
+     *
+     * @param firstName The first name of the contact to remove.
+     * @param lastName  The last name of the contact to remove.
+     */
     public void removeContact(String firstName, String lastName) {
         Contact contactToRemove = null;
         for (Contact contact : contacts) {
@@ -87,6 +109,12 @@ public class ContactManagement {
         }
     }
 
+    /**
+     * Searches for a contact by the given first name.
+     *
+     * @param firstName The first name to search for.
+     * @return The found contact, or null if not found.
+     */
     public Contact searchByName(String firstName) {
         for (Contact contact : contacts) {
             if (contact.getFirstName().equals(firstName)) {
@@ -96,6 +124,13 @@ public class ContactManagement {
         return null;
     }
 
+    /**
+     * Searches for a contact by the given first name and last name.
+     *
+     * @param firstName The first name to search for.
+     * @param lastName  The last name to search for.
+     * @return The found contact, or null if not found.
+     */
     public Contact searchByFullName(String firstName, String lastName) {
         for (Contact contact : contacts) {
             if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
@@ -105,6 +140,12 @@ public class ContactManagement {
         return null;
     }
 
+    /**
+     * Searches for a contact by the given phone number.
+     *
+     * @param phone The phone number to search for.
+     * @return The found contact, or null if not found.
+     */
     public Contact searchByPhone(String phone) {
         for (Contact contact : contacts) {
             if (contact.getPhone().equals(phone)) {
@@ -114,6 +155,9 @@ public class ContactManagement {
         return null;
     }
 
+    /**
+     * Displays all the contacts in the contact list.
+     */
     public void displayContacts() {
         if (contacts.isEmpty()) {
             System.out.println(BOLD + ITALIC + BLUE + "There are no contacts." + RESET);
@@ -127,6 +171,11 @@ public class ContactManagement {
         }
     }
 
+    /**
+     * Displays the details of a specific contact.
+     *
+     * @param searchParam The contact to display.
+     */
     public void displayContact(Contact searchParam) {
         if (searchParam != null) {
             System.out.println(BOLD + ITALIC + CYAN + "Contact found:" + RESET);
@@ -136,6 +185,11 @@ public class ContactManagement {
         }
     }
 
+    /**
+     * Displays the details of a contact.
+     *
+     * @param contact The contact to display.
+     */
     protected void contactDetails(Contact contact) {
         System.out.println("First name: " + contact.getFirstName());
         System.out.println("Last name: " + contact.getLastName());
@@ -147,6 +201,15 @@ public class ContactManagement {
     }
 
     // Validation methods
+
+    /**
+     * Validates a name input and prompts the user for a valid name if invalid.
+     *
+     * @param name            The name to validate.
+     * @param includingSpace  Whether to include spaces in the name validation.
+     * @param scanner         The Scanner object for user input.
+     * @return The validated name.
+     */
     public String validateName(String name, boolean includingSpace, Scanner scanner) {
         if (includingSpace) {
             while (!isValidStreetName(name)) {
@@ -162,14 +225,34 @@ public class ContactManagement {
         return name;
     }
 
+    /**
+     * Checks if a name is valid.
+     *
+     * @param name The name to check.
+     * @return true if the name is valid, false otherwise.
+     */
     public boolean isValidName(String name) {
         return name.matches("[A-Z][a-z]*");
     }
 
+    /**
+     * Checks if a street name is valid.
+     *
+     * @param name The street name to check.
+     * @return true if the street name is valid, false otherwise.
+     */
     public boolean isValidStreetName(String name) {
         return name.matches("[A-Z][a-z ]+[A-Z]?[a-z]*");
     }
 
+    /**
+     * Validates a number input and prompts the user for a valid number if invalid.
+     *
+     * @param number   The number to validate.
+     * @param type     The type of number (e.g., "phone" or "streetNumber").
+     * @param scanner  The Scanner object for user input.
+     * @return The validated number.
+     */
     public String validateNumber(String number, String type, Scanner scanner) {
         while (!isValidNumber(number, type)) {
             System.out.print("Invalid number. Please enter a valid number: ");
@@ -178,6 +261,13 @@ public class ContactManagement {
         return number;
     }
 
+    /**
+     * Checks if a number is valid.
+     *
+     * @param number The number to check.
+     * @param type   The type of number (e.g., "phone" or "streetNumber").
+     * @return true if the number is valid, false otherwise.
+     */
     public boolean isValidNumber(String number, String type) {
         if (number.length() != 10 && type.equals("phone")) {
             return false;
@@ -194,6 +284,13 @@ public class ContactManagement {
         return true;
     }
 
+    /**
+     * Validates an email input and prompts the user for a valid email if invalid.
+     *
+     * @param email    The email to validate.
+     * @param scanner  The Scanner object for user input.
+     * @return The validated email.
+     */
     public String validateEmail(String email, Scanner scanner) {
         while (!isValidEmail(email)) {
             System.out.print("Invalid email. Please enter a valid email: ");
@@ -202,6 +299,12 @@ public class ContactManagement {
         return email;
     }
 
+    /**
+     * Checks if an email is valid.
+     *
+     * @param email The email to check.
+     * @return true if the email is valid, false otherwise.
+     */
     public boolean isValidEmail(String email) {
         // Regular expression pattern for email validation
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[a-z]+$";
@@ -210,7 +313,9 @@ public class ContactManagement {
         return matcher.matches();
     }
 
-    // Data injection method
+    /**
+     * Injects sample data into the contact management system.
+     */
     public void dataInject() {
         // Create sample contact objects
         Contact contact1 = new Contact("John", "Smith", "1234567890", "john@example.com", "Main", "123");

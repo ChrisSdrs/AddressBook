@@ -1,6 +1,17 @@
 import java.util.Scanner;
 
+/**
+ * The Main class represents the entry point of the contact management application.
+ * It provides a menu-based interface for interacting with the ContactManagement system.
+ */
 public class Main {
+
+    /**
+     * The main method is the entry point of the application.
+     * It creates an instance of the ContactManagement class, displays a menu, and handles user input.
+     *
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         // Create an instance of the ContactManagement class
         ContactManagement contactManagement = new ContactManagement();
